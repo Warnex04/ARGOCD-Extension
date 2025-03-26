@@ -10,7 +10,6 @@
     "web-vitals": "^1.0.1"
   },
   "peerDependencies": {
-    "argo-ui": "git+https://github.com/argoproj/argo-ui.git",
     "moment": "^2.29.4",
     "react": "^16.9.3",
     "react-dom": "^16.9.3"
@@ -42,7 +41,6 @@
     "@types/react-helmet": "^6.1.0",
     "@types/react-router-dom": "^5.1.8",
     "@types/styled-components": "^5.1.25",
-    "argo-ui": "git+https://github.com/argoproj/argo-ui.git",
     "babel-preset-react": "^6.24.1",
     "esbuild-loader": "^3.0.1",
     "portable-fetch": "^3.0.0",

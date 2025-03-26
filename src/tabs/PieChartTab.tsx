@@ -1,50 +1,36 @@
-import React, { useEffect, useState } from 'react';
-import { ResourceTabProps } from 'argo-ui';
-import { Pie } from 'react-chartjs-2';
-import 'chart.js/auto'; // Ensure compatibility with Chart.js auto-registration
+import React from "react";
+import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
-export const PieChartTab: React.FC<ResourceTabProps> = ({ resource }) => {
-    const [chartData, setChartData] = useState<any>(null);
+const PieChartTab = ({ progressingDevices, updatedDevices }: { progressingDevices: number; updatedDevices: number }) => {
+  const data = [
+    { name: "Progressing Devices", value: progressingDevices },
+    { name: "Updated Devices", value: updatedDevices },
+  ];
 
-    useEffect(() => {
-        const extractData = () => {
-            try {
-                const liveManifest = resource?.status?.liveState;
-                if (!liveManifest) {
-                    console.error('Live manifest not found');
-                    return;
-                }
+  const COLORS = ["#FF6384", "#36A2EB"];
 
-                const data = {
-                    'Category A': liveManifest.spec?.categoryA || 0,
-                    'Category B': liveManifest.spec?.categoryB || 0,
-                    'Category C': liveManifest.spec?.categoryC || 0,
-                };
-
-                setChartData({
-                    labels: Object.keys(data),
-                    datasets: [
-                        {
-                            data: Object.values(data),
-                            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-                        },
-                    ],
-                });
-            } catch (error) {
-                console.error('Error extracting data from live manifest:', error);
-            }
-        };
-
-        extractData();
-    }, [resource]);
-
-    if (!chartData) {
-        return <div>Loading...</div>;
-    }
-
-    return (
-        <div style={{ width: '100%', height: '400px' }}>
-            <Pie data={chartData} />
-        </div>
-    );
+  return (
+    <div style={{ width: "100%", height: "400px" }}>
+      <PieChart width={400} height={400}>
+        <Pie
+          data={data}
+          dataKey="value"
+          nameKey="name"
+          cx="50%"
+          cy="50%"
+          outerRadius={150}
+          fill="#8884d8"
+          label
+        >
+          {data.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          ))}
+        </Pie>
+        <Tooltip />
+        <Legend />
+      </PieChart>
+    </div>
+  );
 };
+
+export default PieChartTab;
